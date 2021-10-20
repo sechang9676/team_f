@@ -11,7 +11,6 @@ public class MuscleCell extends Cell {
 	}
 	
 	public void levelUp() {
-		level++;
-		
+		level++;		
 	}
 }

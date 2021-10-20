@@ -8,4 +8,9 @@ public class ImmunityCell extends Cell {
 		attackSpeed = 5;
 		name = "ImmunityCell";	
 	}
+	
+	public void levelUp() {
+		level++;
+		
+	}
 }
