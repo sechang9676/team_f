@@ -2,10 +2,11 @@
 public class MuscleCell extends Cell {
 	public MuscleCell() {
 		super();
+		cellID = "muscleCell";
 		cellImage = null;
 		hp = 100;
 		level = 1;
-		attckForce = 5;
+		attackForce = 5;
 		attackSpeed = 3;
 		name = "MuscleCell";	
 	}

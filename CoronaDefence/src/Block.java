@@ -29,6 +29,7 @@ public class Block extends Rectangle{
 	}
 	
 	public void draw(Graphics g, Screen screen, int blockID) {
+		
 		if(blockID == 1 || blockID == 2) { // 바이러스가 지나가는 길
 			g.drawImage(roadImage,x,y,screen);
 		}else if(blockID == 0) { 
