@@ -2,6 +2,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -11,7 +12,6 @@ public class Block extends Rectangle{
 	private Image bodyImage;
 	private Image roadImage;
 	public int blockSize = 40;
-	
 	public Block() {
 		try {
 			bodyImage = ImageIO.read(new File("src/block.png"));
