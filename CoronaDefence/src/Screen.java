@@ -26,7 +26,8 @@ public class Screen extends JPanel implements MouseMotionListener, MouseListener
 				if(cellSpot.get(i).y < e.getY() && e.getY() < cellSpot.get(i).y+block.blockSize) {
 					System.out.println(cellSpot.get(i).toString());	
 					cell.add(new ImmunityCell(cellSpot.get(i).x, cellSpot.get(i).y));
-//					cell.get(i).setImage();
+					cell.get(i).setImage();
+					cell.get(i).draw(getGraphics(), this);
 				}
 			}
 		}
@@ -102,6 +103,7 @@ public class Screen extends JPanel implements MouseMotionListener, MouseListener
 			tower = new Tower();
 //			store = new Store();
 			isStart = true;
+		}
 			
 			for(int y = 0; y < map.length; y++) {
 				for(int x = 0; x < map[0].length; x++) {
@@ -118,7 +120,7 @@ public class Screen extends JPanel implements MouseMotionListener, MouseListener
 		}
 		
 		
-	}
-	
-	
 }
+	
+	
+
