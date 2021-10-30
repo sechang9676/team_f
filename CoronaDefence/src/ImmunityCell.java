@@ -1,7 +1,7 @@
 
 public class ImmunityCell extends Cell {
-	public ImmunityCell() {
-		super();
+	public ImmunityCell(int x, int y) {
+		super(x,y);
 		cellID = "immunityCell";
 		cellImage = null;
 		hp = 50;

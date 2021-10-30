@@ -1,7 +1,7 @@
 
 public class MuscleCell extends Cell {
-	public MuscleCell() {
-		super();
+	public MuscleCell(int x, int y) {
+		super(x,y);
 		cellID = "muscleCell";
 		cellImage = null;
 		hp = 100;

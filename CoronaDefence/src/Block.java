@@ -11,7 +11,7 @@ public class Block extends Rectangle{
 	private int y = 0;
 	private Image bodyImage;
 	private Image roadImage;
-	public int blockSize = 40;
+	public static int blockSize = 40;
 	public Block() {
 		try {
 			bodyImage = ImageIO.read(new File("src/block.png"));

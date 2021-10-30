@@ -24,9 +24,9 @@ public class Screen extends JPanel implements MouseMotionListener, MouseListener
 		for(int i = 0; i<cellSpot.size();i++) {
 			if(cellSpot.get(i).x < e.getX() && e.getX() < cellSpot.get(i).x+block.blockSize) {
 				if(cellSpot.get(i).y < e.getY() && e.getY() < cellSpot.get(i).y+block.blockSize) {
-//					System.out.println(cellSpot.get(i).toString());	
-					cell.add(new ImmunityCell());
-					
+					System.out.println(cellSpot.get(i).toString());	
+					cell.add(new ImmunityCell(cellSpot.get(i).x, cellSpot.get(i).y));
+//					cell.get(i).setImage();
 				}
 			}
 		}
@@ -69,7 +69,7 @@ public class Screen extends JPanel implements MouseMotionListener, MouseListener
 		
 	}
 
-	public int[][] map = {{-1,-1,0,0,0,0,0,0,0,0,0,0,0},
+	public static int[][] map = {{-1,-1,0,0,0,0,0,0,0,0,0,0,0},
 			{-1,-1,1,1,1,1,1,1,1,1,1,1,2},
 			{-1,-1,0,0,0,0,0,0,0,0,0,0,0},
 			{-1,-1,1,1,1,1,1,1,1,1,1,1,2},
@@ -83,6 +83,7 @@ public class Screen extends JPanel implements MouseMotionListener, MouseListener
 	
 	private int mapX = 50, mapY = 40;
 	
+	public boolean isStart = false;
 	public Block block;
 	public Tower tower;
 	public Store store;
@@ -96,21 +97,27 @@ public class Screen extends JPanel implements MouseMotionListener, MouseListener
 	@Override
 	protected void paintComponent(Graphics g) {
 		// TODO Auto-generated method stub
-		block = new Block();
-		tower = new Tower();
-		store = new Store();
-		for(int y = 0; y < map.length; y++) {
-			for(int x = 0; x < map[0].length; x++) {
-				block.setPosition(x*block.blockSize + mapX, y*block.blockSize + mapY);
-				block.draw(g, this, map[y][x]);
-				if(map[y][x] == 1) {
-					cellSpot.add(new Rectangle(x*block.blockSize+mapX,y*block.blockSize+mapY,block.blockSize,block.blockSize)); // 몬스터가 나오는 위치정보를 cellSpot에 저장
+		if(!isStart) {
+			block = new Block();
+			tower = new Tower();
+//			store = new Store();
+			isStart = true;
+			
+			for(int y = 0; y < map.length; y++) {
+				for(int x = 0; x < map[0].length; x++) {
+					block.setPosition(x*block.blockSize + mapX, y*block.blockSize + mapY);
+					block.draw(g, this, map[y][x]);
+					if(map[y][x] == 1) {
+						cellSpot.add(new Rectangle(x*block.blockSize+mapX,y*block.blockSize+mapY,block.blockSize,block.blockSize)); // 몬스터가 나오는 위치정보를 cellSpot에 저장
+					}
 				}
 			}
+			System.out.println(cellSpot.get(0).toString());
+			tower.draw(g, this);
+//			store.draw(g, this);
 		}
-		System.out.println(cellSpot.get(0).toString());
-		tower.draw(g, this);
-		store.draw(g, this);
+		
+		
 	}
 	
 	
