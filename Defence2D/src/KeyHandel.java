@@ -23,7 +23,7 @@ public class KeyHandel implements MouseListener, MouseMotionListener{
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		Screen.mse = new Point(e.getX(),e.getY());
-		System.out.println(Screen.mse.toString());
+//		System.out.println(Screen.mse.toString());
 	}
 
 	@Override
