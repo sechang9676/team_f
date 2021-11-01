@@ -6,16 +6,14 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 public class Block extends Rectangle {
-	public Rectangle towerSquare; //cell create spot
 	public int x,y; // block position
 	public int groundID; // how block? - 1.block 2.road
 	public int airID; // item create on the block
 	public Image blockImage;
 	public int blockSize = 40;
-	
+
 	public Block(int x, int y, int groundID, int airID) {
 		setBounds(x,y,blockSize,blockSize);
-		towerSquare = new Rectangle(x,y,blockSize,blockSize);
 		this.groundID = groundID;
 		this.airID = airID;
 		this.x = x;
@@ -36,6 +34,9 @@ public class Block extends Rectangle {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void define() {
 	}
 	
 	public void draw(Graphics g) {
