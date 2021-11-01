@@ -12,6 +12,9 @@ public class Screen extends JPanel {
 	public static int myWidth, myHeight;
 	public boolean isFirst = true;
 	
+	public static int killCount = 0;
+
+
 	public static Room room;
 	public static Save save;
 	public static Store store;
