@@ -4,7 +4,6 @@ import java.awt.*;
 public class Frame extends JFrame {
 //	public Screen screen = new Screen(this);
 	public MenuScreen menu_screen = new MenuScreen(this);
-	
 	public Frame() {
 		setTitle(title);
 		setSize(size);

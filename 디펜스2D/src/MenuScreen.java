@@ -34,10 +34,6 @@ public class MenuScreen extends JPanel{
 			}
 		});
 	}
-	private void setPreferredSize(int width, int height) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	
 	
