@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
@@ -51,6 +52,8 @@ public class Screen extends JPanel implements Runnable {
 	
 	public JButton back_btn = new JButton();
 	public Image back_img;
+	
+	public File audioFile;
 	
 	public Screen(Frame frame) {
 		this.setLayout(null);
@@ -116,9 +119,8 @@ public class Screen extends JPanel implements Runnable {
 		URL mobG = getClass().getResource("Textures/enemyG.png");
 		tileset_mob[2] = new ImageIcon(mobG).getImage();
 		URL mobD = getClass().getResource("Textures/enemyD.png");
+//		System.out.println(mobD.toString());
 		tileset_mob[3] = new ImageIcon(mobD).getImage();
-		//--------------------------------------------------------
-		
 		//---------------Mission Load-----------------------------
 		ClassLoader classLoader = getClass().getClassLoader();
 		InputStream stream = classLoader.getResourceAsStream("Mission");
@@ -188,7 +190,7 @@ public class Screen extends JPanel implements Runnable {
 
 	public static int fpsFrame = 0, fps = 1000000;
 
-	public int spawnTime = 1000, spawnFrame = 0;
+	public int spawnTime = 2000, spawnFrame = 0;
 
 	//---------------mob Spawner-----------------------------------------------------------
 	public void mobSpawner() {
@@ -227,31 +229,8 @@ public class Screen extends JPanel implements Runnable {
 	}
 //----------------------mob Spawner end-------------------------------------------------------------------------------------------
 	
-	//--------------play audio------------------------------------------------------------------------
-	public void playAudio(String fileName) {
-		try {
-			URL url = getClass().getResource(fileName);
-			System.out.println(url.toString());
-			File file = new File(url.getPath());
-			
-			final Clip clip = AudioSystem.getClip();
-			clip.addLineListener(new LineListener() {
-				
-				@Override
-				public void update(LineEvent event) {
-					// TODO Auto-generated method stub
-					if(event.getType() == LineEvent.Type.STOP)
-						clip.close();
-				}
-			});
-			clip.open(AudioSystem.getAudioInputStream(file));
-			clip.start();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
+
 	public void run() {
-		playAudio("Sounds/music.wav");
 		while (true) {
 			if (!isFirst && health > 0) {
 				room.physic();
