@@ -53,7 +53,9 @@ public class Mob extends Rectangle {
 		direction = right;
 		mobWalk = 0;
 		Screen.killCount += 1;
-		Screen.score += 20*Screen.level;// score record
+		if(Screen.room.block[yC][xC].airID != Value.airHome) {
+			Screen.score += 20*Screen.level;// score record
+		}
 	}
 
 	public void losePlayerHealth() {
@@ -132,6 +134,7 @@ public class Mob extends Rectangle {
 					}
 				}
 
+				//monster collision home
 				if (Screen.room.block[yC][xC].airID == Value.airHome) {
 					deleteMob();
 					losePlayerHealth();

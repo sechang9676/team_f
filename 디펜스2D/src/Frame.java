@@ -4,6 +4,7 @@ import java.awt.*;
 public class Frame extends JFrame {
 //	public Screen screen = new Screen(this);
 	public MenuScreen menu_screen = new MenuScreen(this);
+	public Screen screen = new Screen(this);
 	public Frame() {
 		setTitle(title);
 		setSize(size);
@@ -33,7 +34,8 @@ public class Frame extends JFrame {
 	public void change(String panelName) {
 		if(panelName.equals("screen")) {
 			getContentPane().removeAll();
-			getContentPane().add(new Screen(this));
+			getContentPane().add(screen);
+			screen.thread.resume();
 			revalidate();
 			repaint();
 		}else if(panelName.equals("menu_screen")){

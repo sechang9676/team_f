@@ -21,30 +21,30 @@ import javax.swing.JPanel;
 
 public class Screen extends JPanel implements Runnable {
 	public Thread thread = new Thread(this);
-
+	
 	public static Image[] tileset_ground = new Image[100];
 	public static Image[] tileset_air = new Image[100];
 	public static Image[] tileset_res = new Image[100];
 	public static Image[] tileset_mob = new Image[100];
 	public static Image[] tileset_boss = new Image[100];
-
+	
 	public static int myWidth, myHeight;
 	public static boolean isFirst = true;
-	public static boolean isPlay = false;
 	public static int killCount = 0;
 	public static int score = 0;
-
+	
 	public static Room room;
 	public static Save save;
 	public static Point mse = new Point(0, 0); // current mouse point
 	public static Store store;
 	public static Mob[] mobs = new Mob[100];
-
+	
 	public int mobNumber = Screen.level * 3; 
+	public int mobCount = mobNumber; 
 	public int mobSpawned = 0;
-
+	
 	public static int coinage = 25, health = 10;
-
+	
 	public static int level = 1;
 	public static int lastRound = 3;
 	
@@ -53,7 +53,12 @@ public class Screen extends JPanel implements Runnable {
 	public JButton back_btn = new JButton();
 	public Image back_img;
 	
-	public File audioFile;
+	//-------------------------------GameOver or GameClear --> restart button setting---------------------------------
+	public ImageIcon restartNormalIcon = new ImageIcon("./Resource/Textures/restartbutton.gif");
+	public ImageIcon restartRollOverIcon = new ImageIcon("./Resource/Textures/restartbutton_mouseOn.gif");
+	public JButton restart_btn = new JButton("",restartNormalIcon);
+	//----------------------------------------------------------------------------------------------------------------
+	
 	
 	public Screen(Frame frame) {
 		this.setLayout(null);
@@ -79,6 +84,24 @@ public class Screen extends JPanel implements Runnable {
 			}
 		});
 		//--------------------------------------------
+		
+		//------------------restart button------------------
+		restart_btn.setSize(360,150);
+		restart_btn.setLocation(200,400);
+		restart_btn.setBorderPainted(false);
+		restart_btn.setContentAreaFilled(false);
+		restart_btn.setFocusPainted(false);
+		restart_btn.setRolloverIcon(restartRollOverIcon);
+		
+		restart_btn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				reStart();
+			}
+		});
+		
 		thread.start();
 	}
 
@@ -162,6 +185,7 @@ public class Screen extends JPanel implements Runnable {
 
 			store.draw(g);// Draw the Store
 
+			//--------------------------game over draw---------------------------------------------
 			if (health < 1) {
 				g.setColor(new Color(0, 0, 0));
 				g.fillRect(0, 0, myWidth, myHeight);
@@ -194,29 +218,17 @@ public class Screen extends JPanel implements Runnable {
 
 	//---------------mob Spawner-----------------------------------------------------------
 	public void mobSpawner() {
-		if (mobSpawned <= mobNumber) {
+		System.out.println(mobCount);
+		if (mobSpawned < mobNumber) {
 			if (spawnFrame >= spawnTime) {
 				for (int i = 0; i < mobs.length; i++) {
-					if (!mobs[i].inGame) {
-//						if (mobSpawned == mobNumber) {
-//							mobs[mobNumber].towerDamage = 5;// Bosses Damage to our health from getting home
-//							mobs[mobNumber].spawnMob(Value.mobB, 1000 * level, 22 * level, 10, (25 / Screen.level));
-//							System.out.println("Corona-Beta Spawned! " + "Health: " + mobs[mobNumber].health
-//									+ " Tower Damage: " + mobs[mobNumber].towerDamage + " Count: " + mobSpawned
-//									+ " At Speed " + mobs[mobNumber].walkSpeed);
-//
-//						} else {
-//							mobs[i].towerDamage = 15;// Normal creep Damage to our health from getting home
-//							mobs[i].spawnMob(randMob.nextInt(4), 1000 * level, 22 * level, 5, (25 / Screen.level));
-//							System.out.println("Corona-Alpha Spawned! " + "Health: " + mobs[i].health + " Tower Damage: "
-//									+ mobs[i].towerDamage + " Count: " + mobSpawned + " At Speed " + mobs[i].walkSpeed);
-//						}
-						
+					if (!mobs[i].inGame) {						
 						//------------------monster random spawn-------------------------------------------
 						mobs[i].towerDamage = 10;
 						mobs[i].spawnMob(randMob.nextInt(4), 1000*level, 22*level, 5, (25/level));
 						//---------------------------------------------------------------------------------
 						mobSpawned += 1;
+						mobCount -= 1;
 						break;
 					}
 				}
@@ -229,6 +241,24 @@ public class Screen extends JPanel implements Runnable {
 	}
 //----------------------mob Spawner end-------------------------------------------------------------------------------------------
 	
+	
+	//-----------Game Restart------------------------------------------------------
+	public void reStart() {
+		coinage = 25;
+		health = 10;
+		level = 1;
+		mobSpawned = 0;
+		fpsFrame = 0;
+		fps = 1000000;
+		spawnFrame = 0;
+		killCount = 0;
+		score = 0;
+		isFirst = true;
+		mobCount = mobNumber;
+		remove(restart_btn);
+		thread.resume();
+	}
+	//----------------------------------------------------------------------------
 
 	public void run() {
 		while (true) {
@@ -247,11 +277,12 @@ public class Screen extends JPanel implements Runnable {
 				}
 			}
 			
-			//-------game stop---------------
+			//-------GameClear or GameOver---------------
 			if(level > lastRound || health <= 0) {
-				thread.stop();
+				add(restart_btn);
+				thread.suspend();
 			}
-			//-------------------------------
+			//-------------------------------------------
 
 			repaint();
 
